@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>To-Do-List</title>
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <script defer src="script.js"></script>
+</head>
+
+<body>
+<div class="header">ToDo List</div>
+<hr>
+<div class="main-part">
+    <form class="input-form">
+        <div class="input-field">
+            <input type="text"
+                   id="input-todo"
+                   class="input"
+                   placeholder="input new toDo here..."
+                   size="30"
+            />
+            <label for="input-todo"></label>
+        </div>
+        <input type="submit" class="button button--add" value="add toDo">
+    </form>
+    <div class="list-todo-container">
+        <div class="list-header">
+            ToDo:
+        </div>
+        <ul class="toDo-list">
+
+        </ul>
+    </div>
+    <div class="list-done-container">
+        <div class="list-header">
+            Done:
+        </div>
+        <ul class="done-list">
+
+        </ul>
+    </div>
+</div>
+
+
+</body>
+</html>
+
