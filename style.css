@@ -1,14 +1,18 @@
 body {
-    margin: 8px 6px;
+    margin: 0;
+    /*margin: 8px 6px;*/
 }
 
 .header {
     display: flex;
     justify-content: center;
+    padding: 20px;
     color: green;
     font-size: 2em;
     font-weight: bold;
     cursor: default;
+    background-color: beige;
+    border-bottom: solid #0000FFFF;
 }
 
 hr {
@@ -26,14 +30,17 @@ form {
     background-color: antiquewhite;
     padding: 20px 0;
     border-radius: 3px;
+    width: 100%;
 }
 
 .input-field {
-    margin-right: 20px;
+    margin: 0 20px;
+    width: 100%;
     /*background-color: #d5fad5;*/
 }
 
 .button--add {
+    margin-right: 15px;
     background-color: beige;
     border: 2px solid #bb7e31;
     border-radius: 4px;
@@ -47,6 +54,7 @@ form {
 .input-todo {
     border: 2px solid #d5fad5;
     border-radius: 4px;
+    width: calc(100% - 1.2rem);
 }
 .input-todo:focus {
     /*border-color: transparent;*/
@@ -54,6 +62,7 @@ form {
     box-shadow: 0 0 4px rgba(0,0,0,0.7);
     outline-style: none;
 }
+
 .empty-error{
     border-color: mediumvioletred;
 }
@@ -68,25 +77,51 @@ form {
     color: #e8266a;
 }
 
-.list-done-container .list-header {
-    color: #3fe708;
+li {
+    padding: 5px 8px;
+    display: flex;
+    justify-content: space-between;
 }
-
-ul {
-    list-style-type: none;
-    padding: 0 10px;
-    /*display: flex;*/
-    /*margin: 0 0 0 0;*/
+li:hover {
+    color: white;
 }
 
 .todo-li {
     border-top: 2px solid #e85454;
-    padding: 5px 0;
 }
 
 .todo-li:hover {
     background-color: #e864da;
     transform: scale(1.01);
 }
+
+.button-done {
+    position: relative;
+    right: 10px;
+}
+
+.button-done:hover {
+    background-color: #b2ec9e;
+    border: 2px solid green;
+}
+
+.list-done-container .list-header {
+    color: #3fe708;
+}
+
+.li-done {
+    border-top: 2px solid #93f13a;
+}
+.li-done:hover {
+    background-color: #b2ec9e;
+    transform: scale(1.01);
+}
+
+ul {
+    list-style-type: none;
+    padding: 0 10px;
+}
+
+
 
 
