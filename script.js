@@ -1,8 +1,11 @@
 const addButton = document.querySelector('.button--add');
 const todoInput = document.querySelector('.input-todo');
-const todoList = document.querySelector('.toDo-list');
+const todoList = document.querySelector('.todo-list');
+const doneList = document.querySelector('.list-done');
+let remaining = 0;
+let done = 0;
 
-const mockTodo = ['Learn JS', 'Learn DOM and CSS', 'Learn ReactJS']
+const mockTodo = ['Learn JS', 'Learn DOM and CSS', 'Learn ReactJS'];
 
 const addTodo = function (content) {
 	if (content === '') {
@@ -24,6 +27,7 @@ const addTodo = function (content) {
 
 addEventListener('DOMContentLoaded', () => {
 	mockTodo.map(elem => addTodo(elem));
+	// remaining = todoList.
 })
 
 addButton.onclick = function(event) {
@@ -32,18 +36,24 @@ addButton.onclick = function(event) {
 	todoInput.value = '';
 }
 
+function countTodos(type) {
+	let [remaining, done] = [...document.querySelectorAll('.list-header')];
+	if (type === 'add') {
+		// remaining.innerHTM
+		return;
+	}
+}
+
 function CreateButton(selector, value, title = '') {
 	let button = document.createElement('input');
 	button.setAttribute('type', 'button');
 	button.setAttribute('value', value);
 	button.setAttribute('title', title);
 	button.classList.add(selector);
-	// console.log('button = ', button);
 	return button;
 }
 
 const addToDone = function(text) {
-	let doneList = document.querySelector('.list-done');
 	let todoDone = document.createElement('li');
 	todoDone.classList.add('li-done');
 	todoDone.innerText = text;
@@ -63,3 +73,10 @@ todoList.addEventListener('click', function(event) {
 	doneTodo.remove();
 	addToDone(doneTodoText);
 })
+
+doneList.addEventListener('click', function (event) {
+	if (event.target.tagName !== 'INPUT') {
+		return;
+	}
+	event.target.closest('.li-done').remove();
+});
