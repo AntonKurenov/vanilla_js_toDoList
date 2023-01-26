@@ -1,6 +1,12 @@
+html, body {
+    height: 100%;
+}
+
 body {
     margin: 0;
-    /*margin: 8px 6px;*/
+    background-color: #fcfeff;
+    display: flex;
+    flex-direction: column;
 }
 
 .header {
@@ -15,10 +21,8 @@ body {
     border-bottom: solid #0000FFFF;
 }
 
-hr {
-    border: 2px solid blue;
-    width: 98%;
-    margin-bottom: 0;
+.main-part {
+    flex: 1 0 auto;
 }
 
 form {
@@ -111,6 +115,7 @@ li:hover {
 
 .li-done {
     border-top: 2px solid #93f13a;
+    background-color: #cee1c6;
 }
 .li-done:hover {
     background-color: #b2ec9e;
@@ -122,6 +127,16 @@ ul {
     padding: 0 10px;
 }
 
+.footer {
+    height: 50px;
+    flex-shrink: 0;
+    background-color: #dcffec;
+    padding: 5px;
+}
+
+.time-and-stats {
+    display: flex;
+}
 
 
 

@@ -4,8 +4,6 @@ const todoList = document.querySelector('.todo-list');
 const doneList = document.querySelector('.list-done');
 const todoHead = document.querySelector('.list-todo-container .list-header');
 const doneHead = document.querySelector('.list-done-container .list-header');
-let remaining = 0;
-let done = 0;
 
 const stats = {
   remaining: 0,
@@ -13,14 +11,13 @@ const stats = {
 	refresh() {
 		this.remaining = todoList.children.length;
 		this.done = doneList.children.length;
-		console.log(todoHead);
 		todoHead.innerText = 'ToDo: ' + this.remaining;
 		doneHead.innerText = 'Done: ' + this.done;
-		console.log('hello = ', this.remaining, this.done);
 	}
 }
 
-const mockTodo = ['Learn JS', 'Learn DOM and CSS', 'Learn ReactJS'];
+const mockTodo = ['Learn JS', 'Learn DOM and CSS', 'Learn React'];
+const mockDone = ['Take a shower'];
 
 const addTodo = function (content) {
 	if (content === '') {
@@ -43,6 +40,7 @@ const addTodo = function (content) {
 
 addEventListener('DOMContentLoaded', () => {
 	mockTodo.map(elem => addTodo(elem));
+	mockDone.map(elem => addToDone(elem));
 	stats.refresh();
 })
 
@@ -83,9 +81,11 @@ todoList.addEventListener('click', function(event) {
 	addToDone(doneTodoText);
 })
 
+//remove to-do from done list:
 doneList.addEventListener('click', function (event) {
 	if (event.target.tagName !== 'BUTTON') {
 		return;
 	}
 	event.target.closest('.li-done').remove();
+	stats.refresh();
 });
