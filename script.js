@@ -2,8 +2,23 @@ const addButton = document.querySelector('.button--add');
 const todoInput = document.querySelector('.input-todo');
 const todoList = document.querySelector('.todo-list');
 const doneList = document.querySelector('.list-done');
+const todoHead = document.querySelector('.list-todo-container .list-header');
+const doneHead = document.querySelector('.list-done-container .list-header');
 let remaining = 0;
 let done = 0;
+
+const stats = {
+  remaining: 0,
+	done: 0,
+	refresh() {
+		this.remaining = todoList.children.length;
+		this.done = doneList.children.length;
+		console.log(todoHead);
+		todoHead.innerText = 'ToDo: ' + this.remaining;
+		doneHead.innerText = 'Done: ' + this.done;
+		console.log('hello = ', this.remaining, this.done);
+	}
+}
 
 const mockTodo = ['Learn JS', 'Learn DOM and CSS', 'Learn ReactJS'];
 
@@ -23,11 +38,12 @@ const addTodo = function (content) {
 		'move to Done');
 	todoLi.append(doneButton);
 	todoList.append(todoLi);
+	stats.refresh();
 }
 
 addEventListener('DOMContentLoaded', () => {
 	mockTodo.map(elem => addTodo(elem));
-	// remaining = todoList.
+	stats.refresh();
 })
 
 addButton.onclick = function(event) {
@@ -36,18 +52,9 @@ addButton.onclick = function(event) {
 	todoInput.value = '';
 }
 
-function countTodos(type) {
-	let [remaining, done] = [...document.querySelectorAll('.list-header')];
-	if (type === 'add') {
-		// remaining.innerHTM
-		return;
-	}
-}
-
 function CreateButton(selector, value, title = '') {
-	let button = document.createElement('input');
-	button.setAttribute('type', 'button');
-	button.setAttribute('value', value);
+	let button = document.createElement('button');
+	button.innerHTML = value;
 	button.setAttribute('title', title);
 	button.classList.add(selector);
 	return button;
@@ -60,22 +67,24 @@ const addToDone = function(text) {
 	let deleteButton = new CreateButton('button-done', 'X',
 		'delete ToDo');
 	todoDone.append(deleteButton);
-	doneList.append(todoDone);
+	doneList.prepend(todoDone);
+	stats.refresh();
 }
 
 todoList.addEventListener('click', function(event) {
 	let target = event.target;
-	if (target.tagName !== 'INPUT') {
+	if (target.tagName !== 'BUTTON') {
 		return ;
 	}
 	let doneTodo = target.closest('.todo-li');
 	let doneTodoText = doneTodo.innerText;
+	doneTodoText = doneTodoText.slice(0, doneTodoText.length - 2);
 	doneTodo.remove();
 	addToDone(doneTodoText);
 })
 
 doneList.addEventListener('click', function (event) {
-	if (event.target.tagName !== 'INPUT') {
+	if (event.target.tagName !== 'BUTTON') {
 		return;
 	}
 	event.target.closest('.li-done').remove();

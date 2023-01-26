@@ -111,7 +111,6 @@ li:hover {
 
 .li-done {
     border-top: 2px solid #93f13a;
-    text-decoration: line-through;
 }
 .li-done:hover {
     background-color: #b2ec9e;
