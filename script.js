@@ -42,6 +42,8 @@ addEventListener('DOMContentLoaded', () => {
 	mockTodo.map(elem => addTodo(elem));
 	mockDone.map(elem => addToDone(elem));
 	stats.refresh();
+	putDateAndTime();
+	setInterval(putDateAndTime, 5000);
 })
 
 addButton.onclick = function(event) {
@@ -89,3 +91,13 @@ doneList.addEventListener('click', function (event) {
 	event.target.closest('.li-done').remove();
 	stats.refresh();
 });
+
+function putDateAndTime() {
+	let date = new Date();
+	const timeElem = document.querySelector('.time');
+	const dateElem = document.querySelector('.date');
+	//place the time and date
+	timeElem.innerHTML = `${date.getHours()} : 
+		${date.getMinutes().toString().length === 2 ? date.getMinutes() : '0' + date.getMinutes()}`;
+	dateElem.innerHTML = `${date.getDay()}.${date.getDate()}.${date.getFullYear()}`;
+}
