@@ -19,12 +19,21 @@ const stats = {
 const mockTodo = ['Learn JS', 'Learn DOM and CSS', 'Learn React'];
 const mockDone = ['Take a shower'];
 
+let emptyErrorTrigger = false;
+
 const addTodo = function (content) {
 	if (content === '') {
+		if (emptyErrorTrigger) {
+			return ;
+		}
+		emptyErrorTrigger = true;
 		let timerId = setInterval(() => {
 			todoInput.classList.toggle('empty-error');
 		}, 200);
-		setTimeout(() => clearInterval(timerId), 1200);
+		setTimeout(() => {
+			emptyErrorTrigger = false;
+			clearInterval(timerId)
+		}, 1200);
 		todoInput.classList.remove('empty-error');
 		return ;
 	}
