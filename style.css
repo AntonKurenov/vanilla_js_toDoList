@@ -151,9 +151,9 @@ ul {
     align-items: center;
 }
 
-.time {
-    margin-bottom: 5px;
-    border-bottom: solid #4d4dd3;
+.date {
+    padding-top: 3px;
+    border-top: solid #4d4dd3;
 }
 
 

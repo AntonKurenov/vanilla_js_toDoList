@@ -6,9 +6,7 @@ const todoHead = document.querySelector('.list-todo-container .list-header');
 const doneHead = document.querySelector('.list-done-container .list-header');
 
 const stats = {
-  remaining: 0,
-	done: 0,
-	refresh() {
+	remaining: 0, done: 0, refresh() {
 		this.remaining = todoList.children.length;
 		this.done = doneList.children.length;
 		todoHead.innerText = 'ToDo: ' + this.remaining;
@@ -16,15 +14,16 @@ const stats = {
 	}
 }
 
-const mockTodo = ['Learn JS', 'Learn DOM and CSS', 'Learn React'];
-const mockDone = ['Take a shower'];
+let allTodos = {
+	notDone: [],
+	done: [],
+	total: 0,
+}
 
-let emptyErrorTrigger = false;
-
-const addTodo = function (content) {
+function handleInput(content) {
 	if (content === '') {
 		if (emptyErrorTrigger) {
-			return ;
+			return;
 		}
 		emptyErrorTrigger = true;
 		let timerId = setInterval(() => {
@@ -35,69 +34,92 @@ const addTodo = function (content) {
 			clearInterval(timerId)
 		}, 1200);
 		todoInput.classList.remove('empty-error');
-		return ;
+	} else {
+		allTodos.notDone.push(content);
+		localStorage.setItem('allTodos', JSON.stringify(allTodos));
+		addToTodoList(content);
 	}
+}
+
+function addToTodoList(content) {
 	let todoLi = document.createElement('LI');
 	todoLi.classList.add('todo-li');
-	todoLi.innerText = content;
-	let doneButton = new CreateButton('button-done', 'V',
-		'move to Done');
+	todoLi.innerHTML = content;
+	let doneButton = new CreateButton('button-done', 'V', 'move to Done');
 	todoLi.append(doneButton);
 	todoList.append(todoLi);
 	stats.refresh();
 }
 
-addEventListener('DOMContentLoaded', () => {
-	mockTodo.map(elem => addTodo(elem));
-	mockDone.map(elem => addToDone(elem));
+const mockTodo = ['Learn JS', 'Learn DOM and CSS', 'Learn React'];
+const mockDone = ['Take a shower'];
+
+let emptyErrorTrigger = false;
+
+//actions on page load
+document.addEventListener('DOMContentLoaded', () => {
+	// mockTodo.map(elem => addToTodoList(elem));
+	// mockDone.map(elem => addToDone(elem));
 	stats.refresh();
 	putDateAndTime();
 	setInterval(putDateAndTime, 5000);
+	if (JSON.parse(localStorage.getItem('allTodos'))) {
+		allTodos = JSON.parse(localStorage.getItem('allTodos'));
+	}
+	allTodos.notDone.map((el) => addToTodoList(el));
+	allTodos.done.map((el) => addToDone(el));
 })
 
-addButton.onclick = function(event) {
+addButton.onclick = function (event) {
 	event.preventDefault();
-	addTodo(todoInput.value);
+	handleInput(todoInput.value);
 	todoInput.value = '';
 }
 
 function CreateButton(selector, value, title = '') {
 	let button = document.createElement('button');
-	button.innerHTML = value;
+	button.innerText = value;
 	button.setAttribute('title', title);
 	button.classList.add(selector);
 	return button;
 }
 
-const addToDone = function(text) {
+const addToDone = function (text) {
 	let todoDone = document.createElement('li');
 	todoDone.classList.add('li-done');
 	todoDone.innerText = text;
-	let deleteButton = new CreateButton('button-done', 'X',
-		'delete ToDo');
+	let deleteButton = new CreateButton('button-done', 'X', 'delete ToDo');
 	todoDone.append(deleteButton);
 	doneList.prepend(todoDone);
 	stats.refresh();
 }
 
-todoList.addEventListener('click', function(event) {
+//move to-do from notDoneList to doneList
+todoList.addEventListener('click', function (event) {
 	let target = event.target;
 	if (target.tagName !== 'BUTTON') {
-		return ;
+		return;
 	}
 	let doneTodo = target.closest('.todo-li');
 	let doneTodoText = doneTodo.innerText;
 	doneTodoText = doneTodoText.slice(0, doneTodoText.length - 2);
 	doneTodo.remove();
 	addToDone(doneTodoText);
+	allTodos.notDone.splice(allTodos.notDone.indexOf(doneTodoText), 1);
+	allTodos.done.push(doneTodoText);
+	localStorage.setItem('allTodos', JSON.stringify(allTodos));
 })
 
-//remove to-do from done list:
+//remove to-do from doneList:
 doneList.addEventListener('click', function (event) {
 	if (event.target.tagName !== 'BUTTON') {
 		return;
 	}
-	event.target.closest('.li-done').remove();
+	let elem = event.target.closest('.li-done');
+	let todoText = elem.innerText.slice(0, -2);
+	allTodos.done.splice(allTodos.done.indexOf(todoText), 1);
+	localStorage.setItem('allTodos', JSON.stringify(allTodos));
+	elem.remove();
 	stats.refresh();
 });
 
@@ -108,5 +130,5 @@ function putDateAndTime() {
 	//place the time and date
 	timeElem.innerHTML = `${date.getHours()} : 
 		${date.getMinutes().toString().length === 2 ? date.getMinutes() : '0' + date.getMinutes()}`;
-	dateElem.innerHTML = `${date.getDay()}.${date.getDate()}.${date.getFullYear()}`;
+	dateElem.innerHTML = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
 }
