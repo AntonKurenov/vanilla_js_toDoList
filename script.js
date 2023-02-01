@@ -4,9 +4,12 @@ const todoList = document.querySelector('.todo-list');
 const doneList = document.querySelector('.list-done');
 const todoHead = document.querySelector('.list-todo-container .list-header');
 const doneHead = document.querySelector('.list-done-container .list-header');
+const statsTotal = document.querySelector('.stats-total');
 
 const stats = {
-	remaining: 0, done: 0, refresh() {
+	remaining: 0,
+	done: 0,
+	refresh: function() {
 		this.remaining = todoList.children.length;
 		this.done = doneList.children.length;
 		todoHead.innerText = 'ToDo: ' + this.remaining;
@@ -52,20 +55,26 @@ function addToTodoList(content) {
 }
 
 const mockTodo = ['Learn JS', 'Learn DOM and CSS', 'Learn React'];
-const mockDone = ['Take a shower'];
+const mockDone = ['Take a shower', 'Go to the gym'];
 
 let emptyErrorTrigger = false;
 
-//actions on page load
+//actions on page load:
 document.addEventListener('DOMContentLoaded', () => {
-	// mockTodo.map(elem => addToTodoList(elem));
-	// mockDone.map(elem => addToDone(elem));
+	// mockTodo.map(elem => {
+	// 	allTodos.notDone.push(elem)
+	// });
+	// mockDone.map(elem => {
+	// 	allTodos.done.push(elem)
+	// });
+	// localStorage.setItem('allTodos', JSON.stringify(allTodos));
 	stats.refresh();
 	putDateAndTime();
 	setInterval(putDateAndTime, 5000);
 	if (JSON.parse(localStorage.getItem('allTodos'))) {
 		allTodos = JSON.parse(localStorage.getItem('allTodos'));
 	}
+	statsTotal.innerText = 'Total completed: ' + allTodos.total;
 	allTodos.notDone.map((el) => addToTodoList(el));
 	allTodos.done.map((el) => addToDone(el));
 })
@@ -94,7 +103,7 @@ const addToDone = function (text) {
 	stats.refresh();
 }
 
-//move to-do from notDoneList to doneList
+//move to-do from notDoneList to doneList when click on done button:
 todoList.addEventListener('click', function (event) {
 	let target = event.target;
 	if (target.tagName !== 'BUTTON') {
@@ -107,7 +116,9 @@ todoList.addEventListener('click', function (event) {
 	addToDone(doneTodoText);
 	allTodos.notDone.splice(allTodos.notDone.indexOf(doneTodoText), 1);
 	allTodos.done.push(doneTodoText);
+	allTodos.total++;
 	localStorage.setItem('allTodos', JSON.stringify(allTodos));
+	statsTotal.innerText = 'Total completed: ' + allTodos.total;
 })
 
 //remove to-do from doneList:
