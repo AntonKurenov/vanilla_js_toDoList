@@ -5,6 +5,7 @@ const doneList = document.querySelector('.list-done');
 const todoHead = document.querySelector('.list-todo-container .list-header');
 const doneHead = document.querySelector('.list-done-container .list-header');
 const statsTotal = document.querySelector('.stats-total');
+const cheeringPopup = document.querySelector('.window-message');
 
 const stats = {
 	remaining: 0,
@@ -22,6 +23,8 @@ let allTodos = {
 	done: [],
 	total: 0,
 }
+
+const motivationPhrases = ['Well done!', 'Amazing!', 'Great!', 'Good Job!', 'Great Job!'];
 
 function handleInput(content) {
 	if (content === '') {
@@ -54,8 +57,8 @@ function addToTodoList(content) {
 	stats.refresh();
 }
 
-const mockTodo = ['Learn JS', 'Learn DOM and CSS', 'Learn React'];
-const mockDone = ['Take a shower', 'Go to the gym'];
+// const mockTodo = ['Learn JS', 'Learn DOM and CSS', 'Learn React'];
+// const mockDone = ['Take a shower', 'Go to the gym'];
 
 let emptyErrorTrigger = false;
 
@@ -103,6 +106,18 @@ const addToDone = function (text) {
 	stats.refresh();
 }
 
+function showMessage() {
+	if (cheeringPopup.classList.contains('show')) {
+		return ;
+	}
+	let text = motivationPhrases[Math.floor(Math.random() * motivationPhrases.length)];
+	cheeringPopup.innerText = text;
+	// let elemWidth = cheeringPopup.offsetWidth;
+	cheeringPopup.style.left = `${window.innerWidth / 2 - cheeringPopup.offsetWidth / 2}px`
+	cheeringPopup.classList.toggle('show');
+	setTimeout(() => cheeringPopup.classList.toggle('show'), 1500);
+}
+
 //move to-do from notDoneList to doneList when click on done button:
 todoList.addEventListener('click', function (event) {
 	let target = event.target;
@@ -119,6 +134,8 @@ todoList.addEventListener('click', function (event) {
 	allTodos.total++;
 	localStorage.setItem('allTodos', JSON.stringify(allTodos));
 	statsTotal.innerText = 'Total completed: ' + allTodos.total;
+	//show motivation message:
+	showMessage();
 })
 
 //remove to-do from doneList:
