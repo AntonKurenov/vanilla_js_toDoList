@@ -71,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	// 	allTodos.done.push(elem)
 	// });
 	// localStorage.setItem('allTodos', JSON.stringify(allTodos));
-	stats.refresh();
 	putDateAndTime();
 	setInterval(putDateAndTime, 5000);
 	if (JSON.parse(localStorage.getItem('allTodos'))) {
@@ -80,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	statsTotal.innerText = 'Total completed: ' + allTodos.total;
 	allTodos.notDone.map((el) => addToTodoList(el));
 	allTodos.done.map((el) => addToDone(el));
+	stats.refresh();
 })
 
 addButton.onclick = function (event) {
