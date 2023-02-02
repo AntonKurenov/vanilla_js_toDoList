@@ -25,6 +25,7 @@ let allTodos = {
 }
 
 const motivationPhrases = ['Well done!', 'Amazing!', 'Great!', 'Good Job!', 'Great Job!'];
+let emptyErrorTrigger = false;
 
 function handleInput(content) {
 	if (content === '') {
@@ -60,34 +61,6 @@ function addToTodoList(content) {
 // const mockTodo = ['Learn JS', 'Learn DOM and CSS', 'Learn React'];
 // const mockDone = ['Take a shower', 'Go to the gym'];
 
-let emptyErrorTrigger = false;
-
-//actions on page load:
-document.addEventListener('DOMContentLoaded', () => {
-	// mockTodo.map(elem => {
-	// 	allTodos.notDone.push(elem)
-	// });
-	// mockDone.map(elem => {
-	// 	allTodos.done.push(elem)
-	// });
-	// localStorage.setItem('allTodos', JSON.stringify(allTodos));
-	putDateAndTime();
-	setInterval(putDateAndTime, 5000);
-	if (JSON.parse(localStorage.getItem('allTodos'))) {
-		allTodos = JSON.parse(localStorage.getItem('allTodos'));
-	}
-	statsTotal.innerText = 'Total completed: ' + allTodos.total;
-	allTodos.notDone.map((el) => addToTodoList(el));
-	allTodos.done.map((el) => addToDone(el));
-	stats.refresh();
-})
-
-addButton.onclick = function (event) {
-	event.preventDefault();
-	handleInput(todoInput.value);
-	todoInput.value = '';
-}
-
 function CreateButton(selector, value, title = '') {
 	let button = document.createElement('button');
 	button.innerText = value;
@@ -104,6 +77,16 @@ const addToDone = function (text) {
 	todoDone.append(deleteButton);
 	doneList.prepend(todoDone);
 	stats.refresh();
+}
+
+function putDateAndTime() {
+	let date = new Date();
+	const timeElem = document.querySelector('.time');
+	const dateElem = document.querySelector('.date');
+	//place the time and date
+	timeElem.innerHTML = `${date.getHours()} : 
+		${date.getMinutes().toString().length === 2 ? date.getMinutes() : '0' + date.getMinutes()}`;
+	dateElem.innerHTML = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
 }
 
 function showMessage() {
@@ -138,6 +121,12 @@ todoList.addEventListener('click', function (event) {
 	showMessage();
 })
 
+addButton.onclick = function (event) {
+	event.preventDefault();
+	handleInput(todoInput.value);
+	todoInput.value = '';
+}
+
 //remove to-do from doneList:
 doneList.addEventListener('click', function (event) {
 	if (event.target.tagName !== 'BUTTON') {
@@ -151,12 +140,22 @@ doneList.addEventListener('click', function (event) {
 	stats.refresh();
 });
 
-function putDateAndTime() {
-	let date = new Date();
-	const timeElem = document.querySelector('.time');
-	const dateElem = document.querySelector('.date');
-	//place the time and date
-	timeElem.innerHTML = `${date.getHours()} : 
-		${date.getMinutes().toString().length === 2 ? date.getMinutes() : '0' + date.getMinutes()}`;
-	dateElem.innerHTML = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
-}
+//actions on page load:
+document.addEventListener('DOMContentLoaded', () => {
+	// mockTodo.map(elem => {
+	// 	allTodos.notDone.push(elem)
+	// });
+	// mockDone.map(elem => {
+	// 	allTodos.done.push(elem)
+	// });
+	// localStorage.setItem('allTodos', JSON.stringify(allTodos));
+	putDateAndTime();
+	setInterval(putDateAndTime, 5000);
+	if (JSON.parse(localStorage.getItem('allTodos'))) {
+		allTodos = JSON.parse(localStorage.getItem('allTodos'));
+	}
+	statsTotal.innerText = 'Total completed: ' + allTodos.total;
+	allTodos.notDone.map((el) => addToTodoList(el));
+	allTodos.done.map((el) => addToDone(el));
+	stats.refresh();
+})
