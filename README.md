@@ -1,6 +1,8 @@
 ## vanilla_js_toDoList
 Simple vanilla JavaScript project to learn the **basic** concepts of frontend development.
 
+[Click to check the demo](https://antonkurenov.github.io/vanilla_js_toDoList/ "To-Do List")
+
 Key features:
 
 - your system date and time in fixed footer.
